@@ -6,11 +6,12 @@ const {handleUserRegistration,
     handleUserLogout,
     handleUserGetInfo} = require("../controller/user.controller");
 
+const verifyJwt = require("../middleware/auth.middleware");
 
 router.post("/create",handleUserRegistration);
 router.post("/login",handleUserLogin);
-router.post("/logout",handleUserLogout);
-router.get("/user-info/:id",handleUserGetInfo);
-router.delete("/user-info/delete/:id",handleUserDelete);
+router.post("/logout",verifyJwt,handleUserLogout);
+router.get("/user-info/:id",verifyJwt,handleUserGetInfo);
+router.delete("/user-info/delete/:id",verifyJwt,handleUserDelete);
 
 module.exports = router;

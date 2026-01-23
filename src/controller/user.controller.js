@@ -106,10 +106,18 @@ async function handleUserDelete(request,response){
     const {email} = request.body;
     if(!email) return response.status(400).json({message:'Email is required'});
 
-    const isEmailExist = await User.findOne({email:email});
-    if(!isEmailExist) return response.status(400).json({message:'Email does not exist'});
+    const user = await User.findOne({email:email});
+    if(!user) return response.status(400).json({message:'Email does not exist'});
 
     await User.findOneAndDelete({email:email});
+
+    logEvent({
+        event: "USER_ACCOUNT_DELETED",
+        userId: user._id,
+        email: user.email,
+        req: request
+    });
+
     return response.status(200).json({message:'User delete success'});
 }
 
