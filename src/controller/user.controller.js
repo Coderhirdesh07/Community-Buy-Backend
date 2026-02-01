@@ -1,7 +1,6 @@
 const User = require("../models/user.model.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const cookie = require("cookie-parser");
 const logEvent = require("../utils/Anaylitcs.logger.utils.js");
 
 async function handleUserRegistration(request,response){
@@ -100,8 +99,18 @@ async function handleUserLogin(request, response) {
 }
 
 async function handleUserLogout(request,response){
+    const {id} = request.body;
+    if(!id) return response.status(400).json({message:"Id is empty"});
 
-    
+    const isUserExist = await User.findById({id});
+    if(!isUserExist) return response.status(400).json({message:"User does not exist"});
+
+    return response.status(200).clearCookie("token",{
+        httpOnly:true,
+        secure:true,
+        sameSite:"strict",
+    })
+    .json({message:"User logout success"}); 
 }
 
 async function handleUserDelete(request,response){
