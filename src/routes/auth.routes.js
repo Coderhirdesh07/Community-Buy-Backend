@@ -13,6 +13,6 @@ router.post("/create",handleUserRegistration);
 router.post("/login",handleUserLogin);
 router.post("/logout",verifyJwt,handleUserLogout);
 router.get("/user-info/:id",verifyJwt,handleUserGetInfo);
-router.delete("/user-info/delete/:id",verifyJwt,handleUserDelete);
+router.delete("/user/delete",verifyJwt,handleUserDelete);
 
 module.exports = router;

@@ -6,15 +6,15 @@ const logEvent = require("../utils/Anaylitcs.logger.utils.js");
 
 async function handleUserRegistration(request,response){
     try{
-        const {fullname,email,password} = request.body;
-    if(!fullname|| !email || !password){
-        return response.status(400).json({message:"Full name or email or password is missing"});
+     const {fullname,email,password,role} = request.body;
+    if(!fullname|| !email || !password || !role){
+        return response.status(400).json({message:"Full name or email or password or role is missing"});
     }
     const isEmailExist = await User.findOne({email:email}); 
     if(isEmailExist) return response.status(400).json({message:'User with email already exist'});
 
-    const encryptedPassword = await bcrypt.hash(this.password,10);
-    const newUser = await User.create({fullname,email,password:encryptedPassword});
+    const encryptedPassword = await bcrypt.hash(password,10);
+    const newUser = await User.create({fullname,email,password:encryptedPassword,role:role});
 
     // analytics
     logEvent({
@@ -32,7 +32,7 @@ async function handleUserRegistration(request,response){
     }
 }
 
-async function handleUserLogin(reques, response) {
+async function handleUserLogin(request, response) {
     try {
         const { email, password } = request.body;
 
@@ -71,12 +71,14 @@ async function handleUserLogin(reques, response) {
         );
 
         // Successful login
+        console.log("Analytics login line 74");
           logEvent({
               event: "USER_LOGGED_IN",
               userId: user._id,
               email: user.email,
               req: request
           });
+          console.log("analytics login line 80")
 
 
         return response
@@ -103,30 +105,35 @@ async function handleUserLogout(request,response){
 }
 
 async function handleUserDelete(request,response){
-    const {email} = request.body;
-    if(!email) return response.status(400).json({message:'Email is required'});
+    const { id } = request.params;
+     if (!id) return response.status(400).json({ message: "User ID is required" });
 
-    const user = await User.findOne({email:email});
-    if(!user) return response.status(400).json({message:'Email does not exist'});
+     const user = await User.findById(id);
+     if (!user) return response.status(404).json({ message: "User not found" });
 
-    await User.findOneAndDelete({email:email});
+     await User.findByIdAndDelete(id);
 
+    console.log("analytics login line 116")
     logEvent({
         event: "USER_ACCOUNT_DELETED",
         userId: user._id,
         email: user.email,
-        req: request
+        request: request
     });
+    console.log("analytics login line 123")
 
-    return response.status(200).json({message:'User delete success'});
+     return response.status(200).json({
+    message: "User deleted successfully",
+    user: { _id: user._id, email: user.email, fullname: user.fullname }
+  });
 }
 
 async function handleUserGetInfo(request,response){
-    const { email } = request.body;
-    if(!email){
-        return response.status(400).json({message:'Email does not exist'});
+    const { id } = request.body;
+    if(!id){
+        return response.status(400).json({message:'User does not exist'});
     }
-    const user = User.findOne({email:email});
+    const user = User.findOne({id});
     if(!user) return response.status(400).json({message:'user with email does not exist'});
     return response.status(200).json({message:'User Info fetched success',data:user});
 }

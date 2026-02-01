@@ -1,16 +1,33 @@
-const {getActiveUsers,logins,getNewUsers,getTotalUsers} = require("../service/analytics.service");
+const {
+  getActiveUsers,
+  logins,
+  getNewUsers,
+  getTotalUsers
+} = require("../service/analytics.service");
 
 async function handleGetAdminAnalytics(req, res) {
-    const totalUsers = getTotalUsers();
-    const totalLogins = logins();
-    const totalRegistrations = getNewUsers();
+  try {
+    const [
+      totalUsers,
+      totalLogins,
+      totalRegistrations
+    ] = await Promise.all([
+      getTotalUsers(),
+      logins(),
+      getNewUsers()
+    ]);
 
-    return res.json({
-        totalUsers,
-        totalLogins,
-        totalRegistrations
+    return res.status(200).json({
+      totalUsers,
+      totalLogins,
+      totalRegistrations
     });
+  } catch (error) {
+    console.error("Analytics fetch failed:", error.message);
+    return res.status(500).json({
+      message: "Failed to fetch analytics"
+    });
+  }
 }
 
-
-module.exports  = {handleGetAdminAnalytics};
+module.exports = { handleGetAdminAnalytics };
