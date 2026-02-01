@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 
-const userSchema = new mongoose.model({
+const userSchema = new mongoose.Schema({
 fullname:{
     type:String,
     require:true,
@@ -27,5 +27,5 @@ refered:{
 },{timeStamps:true});
 
 
-const User = mongoose.Schema('User',userSchema);
+const User = mongoose.model('User',userSchema);
 module.exports = User;

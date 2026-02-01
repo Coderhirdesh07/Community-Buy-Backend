@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const {Schema} = mongoose;
 
-const analyticsSchema = new mongoose.model({
+const analyticsSchema = new mongoose.Schema({
     event:{
         type:String,
         required:true
@@ -24,5 +24,5 @@ const analyticsSchema = new mongoose.model({
 });
 
 
-const Analytics = mongoose.Schema('Analytics',analyticsSchema);
+const Analytics = mongoose.model('Analytics',analyticsSchema);
 module.exports = Analytics;

@@ -4,9 +4,10 @@ const {handleUserRegistration,
     handleUserDelete,
     handleUserLogin,
     handleUserLogout,
-    handleUserGetInfo} = require("../controller/user.controller");
+    handleUserGetInfo
+} = require("../controller/user.controller");
 
-const verifyJwt = require("../middleware/auth.middleware");
+const {verifyJwt} = require("../middleware/auth.middleware");
 
 router.post("/create",handleUserRegistration);
 router.post("/login",handleUserLogin);

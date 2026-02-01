@@ -16,4 +16,9 @@ async function handleProductUpdate(request,response){}
 async function handleProductInfo(request,response){}
 
 
-module.exports = {handleProductDelete,handleProductInfo,handleProductRegistration,handleProductUpdate};
+module.exports = { 
+    handleProductDelete,
+    handleProductInfo,
+    handleProductRegistration,
+    handleProductUpdate
+};

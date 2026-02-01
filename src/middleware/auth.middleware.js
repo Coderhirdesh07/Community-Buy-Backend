@@ -14,4 +14,4 @@ async function verifyJwt(request,response,next){
     }
 
 }
-module.exports =  verifyJwt;
+module.exports =  {verifyJwt};
