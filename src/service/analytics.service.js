@@ -41,5 +41,14 @@ async function getActiveUsers(){
    })
 }
 
+async function getAllProducts(){
+    // here we need to return all products
+}
 
-module.exports = { getActiveUsers,logins,getNewUsers,getTotalUsers};
+async function getNoOfOrderRecieved(){
+    // here we need to caluclate all orders recieved 
+
+}
+
+
+module.exports = { getAllProducts,getNoOfOrderRecieved,getActiveUsers,logins,getNewUsers,getTotalUsers};
