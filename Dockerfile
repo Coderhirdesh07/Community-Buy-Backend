@@ -1,4 +1,4 @@
-FROM node:24-alphine AS base
+FROM node:24-alpine AS base
 
 WORKDIR /community-buy/backend/src
 
