@@ -5,7 +5,7 @@ const logEvent = require("../utils/Anaylitcs.logger.utils.js");
 
 async function handleUserRegistration(request,response){
     try{
-     const {fullname,email,password,role} = request.body;
+    const {fullname,email,password ,role} = request.body;
     if(!fullname|| !email || !password || !role){
         return response.status(400).json({message:"Full name or email or password or role is missing"});
     }
@@ -22,7 +22,6 @@ async function handleUserRegistration(request,response){
         email:newUser.email,
         request:request
     });
-
       return response.status(200).json({message:"User Created successfully",data:newUser});
     }
     catch(error){

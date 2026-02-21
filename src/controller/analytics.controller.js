@@ -28,7 +28,7 @@ async function handleGetAdminAnalytics(request, res) {
   } catch (error) {
     console.error("Analytics fetch failed:", error.message);
     return res.status(500).json({
-      message: "Failed to fetch analytics";
+      message: "Failed to fetch analytics"
     });
   }
 }
