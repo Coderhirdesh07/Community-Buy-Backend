@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const logEvent = require("../utils/Anaylitcs.logger.utils.js");
 
+
 async function handleUserRegistration(request,response){
     try{
     const {fullname,email,password ,role} = request.body;
@@ -22,6 +23,7 @@ async function handleUserRegistration(request,response){
         email:newUser.email,
         request:request
     });
+
       return response.status(200).json({message:"User Created successfully",data:newUser});
     }
     catch(error){
@@ -82,12 +84,13 @@ async function handleUserLogin(request, response) {
         return response
             .status(200)
             .cookie("token", token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: "strict",
+                httpOnly:true,
                 maxAge: 24 * 60 * 60 * 1000 // 1 day
             })
-            .json({ message: "User login success" });
+            .json({ 
+                message: "User login success" ,
+                token:token
+            });
 
     } catch (error) {
         console.error("Login error:", error);
